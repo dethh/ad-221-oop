@@ -1,3 +1,5 @@
+package lb1;
+
 public class Main {
     //1.1
     public static boolean isIncreasing(int[] array) {
