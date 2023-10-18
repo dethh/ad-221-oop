@@ -1,114 +1,93 @@
-package lab3;
-
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner s = new Scanner(System.in);
-        //1
-        System.out.println("Task 1");
-        System.out.print("Enter your string: ");
-        String inputString= s.next();
-        boolean endsWithEd = endsWithEd(inputString);
-        System.out.println("String ends with 'ed': " + endsWithEd);
-        System.out.println("-------------------------------------------------");
-        //2
-        System.out.println("Task 2");
-        System.out.print("Enter your string: ");
-        inputString= s.next();
-        int sumOfDigits = sumDigits(inputString);
-        System.out.println("The sum of the numbers in the line: " + sumOfDigits);
-        System.out.println("-------------------------------------------------");
-        //3
-        System.out.println("Task 3");
-        System.out.print("Enter your string: ");
-        inputString= s.next();
-        int longestBlockLength = findLongestBlockLength(inputString);
-        System.out.println("Length of the longest block of characters: " + longestBlockLength);
-        System.out.println("-------------------------------------------------");
-        //4
-        System.out.println("Task 4");
-        inputString = "  Дмитро Максимович Іванов ";
-        System.out.print("Source string: "+inputString+"\n" );
-        printWords(inputString);
-        System.out.println("-------------------------------------------------");
-        //5
-        System.out.println("Task 5");
-        String strA = "Вася";
-        String strB = "12345678";
-        System.out.println("First line: "+strA);
-        System.out.println("Second line: "+strB);
-        String mergedString = mergeStrings(strA, strB);
-        System.out.println("Integration result: " + mergedString);
-        System.out.println("-------------------------------------------------");
+
+        Bill regularCustomerBill = new Bill();
+        System.out.println("Постійний клієнт:");
+        regularCustomerBill.addItem(new Item("Товар 1", 50.0, 15.0));
+        regularCustomerBill.addItem(new Item("Товар 2", 20.0, 13.5));
+        regularCustomerBill.addItem(new Item("Товар 3", 700.0, 199.5));
+        regularCustomerBill.addItem(new Item("Товар 4", 80.0, 5.0));
+        regularCustomerBill.addItem(new Item("Товар 5", 100.0, 10.0));
+        regularCustomerBill.printBill();
+        commonBill commonCustomerBill = new commonBill();
+        System.out.println("Звичайний клієнт:");
+        commonCustomerBill.addItem(new Item("Товар 1", 50.0, 15.0));
+        commonCustomerBill.addItem(new Item("Товар 2", 20.0, 13.5));
+        commonCustomerBill.addItem(new Item("Товар 3", 700.0, 199.5));
+        commonCustomerBill.addItem(new Item("Товар 4", 80.0, 0.0));
+        commonCustomerBill.addItem(new Item("Товар 5", 100.0, 0.0));
+        commonCustomerBill.printBill();
     }
+    static class Item {
+        private String name;
+        private double price;
+        private double discount;
+        public Item(String name, double price, double discount) {
+            this.name = name;
+            this.price = price;
+            this.discount = discount;
+        }
+        public double getDiscountedPrice() {
+            return price - discount;
+        }
+        public double getDiscount() {
+            return discount;
+        }
+        public double getPrice() {
+            return price;
+        }
+        public String getName() {
+            return name;
+        }
 
-    private static boolean endsWithEd(String input) {
-        return input.trim().endsWith("ed");                     // Використовуємо метод endsWith для перевірки закінчення рядка на "ed"
     }
+    public static class commonBill extends Bill{
+        public void addItem(Item item){
+            items.add(new Item(item.getName(), item.getPrice(), 0.0));
+        }
+    }
+    public static class Bill{
 
-    private static int sumDigits(String input) {
-        int sum = 0;
+        public List<Item> items;
 
-        for (int i = 0; i < input.length(); i++) {
-            char currentChar = input.charAt(i);
-            if (Character.isDigit(currentChar)) {
-                sum += Character.getNumericValue(currentChar);  // Якщо символ є цифрою, то додаємо його до суми
+        public Bill() {
+            this.items = new ArrayList<>();
+        }
+        public void addItem(Item item) {
+            items.add(item);
+        }
+        public List<Item> getItems() {
+            return items;
+        }
+        public double calculateTotal() {
+            double total = 0.0;
+            for (Item item : items) {
+                total += item.getDiscountedPrice();
             }
+            return total;
         }
+        public void printBill() {
+            double totalDiscount = 0;
+            double totalAmount = 0;
 
-        return sum;
-    }
+            for (Item item : items) {
+                double itemDiscount = item.getDiscount();
+                double newPrise = item.getPrice() - itemDiscount;
 
-    private static int findLongestBlockLength(String input) {
-        int longestLength = 0;
-        int currentLength = 1;
+                totalAmount += newPrise;
+                totalDiscount += itemDiscount;
 
-        for (int i = 1; i < input.length(); i++) {
-
-            if (input.charAt(i) == input.charAt(i - 1)) {       // Порівнюємо поточний символ з попереднім
-                currentLength++;
-            } else {
-
-                if (currentLength > longestLength) {            // Якщо символ не співпадає з попереднім, оновлюємо найдовшу довжину і обнуляємо лічильник
-                    longestLength = currentLength;
-                }
-                currentLength = 1;
+                System.out.println( item.getName() + ", Ціна: " + item.getPrice() + " грн, " +
+                        "Знижка: " + itemDiscount + " грн, " +
+                        "Сума зі знижкою: " + newPrise + " грн");
             }
+
+            System.out.println("Сума кошика: " + totalAmount + " грн");
+            System.out.println("Сума знижки: " + totalDiscount + " грн");
         }
-
-        if (currentLength > longestLength) {                    // Перевіряємо, чи найдовший блок вкінці рядка
-            longestLength = currentLength;
-        }
-
-        return longestLength;
-    }
-
-    private static void printWords(String input) {
-        String[] words = input.trim().split("\\s+");       // Розділяємо рядок на слова, використовуючи пробіл як роздільник
-        System.out.print("Words:\n");
-        for (String word : words) {
-            System.out.println(word);                            // Виводимо знайдені слова у консоль
-        }
-    }
-
-    public static String mergeStrings(String strA, String strB) {
-        int lengthA = strA.length();
-        int lengthB = strB.length();
-        StringBuilder result = new StringBuilder();
-
-        int maxLength = lengthA + lengthB;
-
-        for (int i = 0; i < maxLength; i++) {
-            if (i < lengthA) {
-                result.append(strA.charAt(i));
-            }
-            if (i < lengthB) {
-                result.append(strB.charAt(i));
-            }
-        }
-
-        return result.toString();
     }
 
 }
