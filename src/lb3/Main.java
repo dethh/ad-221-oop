@@ -1,26 +1,70 @@
 package lb3;
+
+import java.util.Scanner;
+
 public class Main {
-    public static boolean endsWithEd(String str) {
-        return str.endsWith("ed");
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+
+        System.out.println("Task 1");
+        System.out.print("Enter ur string: ");
+        String inString= s.next();
+        boolean isEndsWithEd = isEndsWithEd(inString);
+        System.out.println("String ends with 'ed': " + isEndsWithEd);
+
+        System.out.println("Task 2");
+        System.out.print("Enter ur string: ");
+        inString= s.next();
+        int digitsSum = sumDigits(inString);
+        System.out.println("The sum of the numbers: " + digitsSum);
+
+        System.out.println("Task 3");
+        System.out.print("Enter ur string: ");
+        inString= s.next();
+        int maxBlockLength = findMaxBlockLength(inString);
+        System.out.println("Length of the longest block: " + maxBlockLength);
+
+        System.out.println("Task 4");
+        inString = " Владимир Александрович Зеленский  ";
+        System.out.print("Source string: "+inString+"\n" );
+        printWords(inString);
+
+        System.out.println("Task 5");
+        String firstLine = "Никита";
+        String secondLine = "qweasdzxc";
+        System.out.println("First line: "+firstLine);
+        System.out.println("Second line: "+secondLine);
+        String combinedString = mergeStrings(firstLine, secondLine);
+        System.out.println("Integration result: " + combinedString);
     }
-    public static int sumNumInString(String str) {
+
+    private static boolean isEndsWithEd(String input) {
+        return input.trim().endsWith("ed");
+    }
+
+    private static int sumDigits(String input) {
         int sum = 0;
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            if (Character.isDigit(ch)) {
-                sum += Character.getNumericValue(ch);
+
+        for (int i = 0; i < input.length(); i++) {
+            char currentChar = input.charAt(i);
+            if (Character.isDigit(currentChar)) {
+                sum += Character.getNumericValue(currentChar);
             }
         }
+
         return sum;
     }
-    public static int longestBlockLength(String str) {
+
+    private static int findMaxBlockLength(String input) {
         int maxLength = 0;
         int currentLength = 1;
 
-        for (int i = 1; i < str.length(); i++) {
-            if (str.charAt(i) == str.charAt(i - 1)) {
+        for (int i = 1; i < input.length(); i++) {
+
+            if (input.charAt(i) == input.charAt(i - 1)) {
                 currentLength++;
             } else {
+
                 if (currentLength > maxLength) {
                     maxLength = currentLength;
                 }
@@ -34,41 +78,32 @@ public class Main {
 
         return maxLength;
     }
-    public static void printWordsInString(String str) {
-        String[] words = str.split("\\s+");
+
+    private static void printWords(String input) {
+        String[] words = input.trim().split("\\s+");
+        System.out.print("Words:\n");
         for (String word : words) {
             System.out.println(word);
         }
     }
-    public static String mergeStrings(String strA, String strB) {
+
+    public static String mergeStrings(String firstLine, String secondLine) {
+        int firstLength = firstLine.length();
+        int secondLength = secondLine.length();
         StringBuilder result = new StringBuilder();
-        int lenA = strA.length();
-        int lenB = strB.length();
-        int maxLength = Math.max(lenA, lenB);
+
+        int maxLength = firstLength + secondLength;
 
         for (int i = 0; i < maxLength; i++) {
-            if (i < lenA) {
-                result.append(strA.charAt(i));
+            if (i < firstLength) {
+                result.append(firstLine.charAt(i));
             }
-            if (i < lenB) {
-                result.append(strB.charAt(i));
+            if (i < secondLength) {
+                result.append(secondLine.charAt(i));
             }
         }
 
         return result.toString();
-    }
-    public static void main(String[] args) {
-        String testString = "This is a test string 1234 ed";
-
-        System.out.println("1. Заканчивается на 'ed': " + endsWithEd(testString));
-        System.out.println("2. Сумма цифр: " + sumNumInString(testString));
-        System.out.println("3. Длина наибольшего блока: " + longestBlockLength(testString));
-        System.out.println("4. Слова в строке:");
-        printWordsInString(testString);
-
-        String strA = "abc";
-        String strB = "123";
-        System.out.println("5. Объединение строк: " + mergeStrings(strA, strB));
     }
 
 }
