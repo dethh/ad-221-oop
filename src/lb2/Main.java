@@ -96,11 +96,15 @@ public class Main {
         Item item1 = new Item("Товар 1", 50.0f);
         Item item2 = new Item("Товар 2", 30.0f);
         Item item3 = new Item("Товар 3", 20.0f);
-
+        Item item4 = new Item("Товар 4", 50.0f);
+        Item item5 = new Item("Товар 5", 40.0f);
+        Item item6 = new Item("Товар 6", 200.0f);
         cart.push(item1);
         cart.push(item2);
         cart.push(item3);
-
+        cart.push(item4);
+        cart.push(item5);
+        cart.push(item6);
         float totalPrice = cart.calculateTotalPrice();
         System.out.println("Сумма цен товаров в корзине: " + totalPrice);
 
@@ -113,3 +117,4 @@ public class Main {
         System.out.println("Измененная сумма цен после снижения на 30%: " + newTotalPrice2);
     }
 }
+
