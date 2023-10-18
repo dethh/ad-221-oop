@@ -1,93 +1,102 @@
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
 
-        Bill regularCustomerBill = new Bill();
-        System.out.println("Постійний клієнт:");
-        regularCustomerBill.addItem(new Item("Товар 1", 50.0, 15.0));
-        regularCustomerBill.addItem(new Item("Товар 2", 20.0, 13.5));
-        regularCustomerBill.addItem(new Item("Товар 3", 700.0, 199.5));
-        regularCustomerBill.addItem(new Item("Товар 4", 80.0, 5.0));
-        regularCustomerBill.addItem(new Item("Товар 5", 100.0, 10.0));
-        regularCustomerBill.printBill();
-        commonBill commonCustomerBill = new commonBill();
-        System.out.println("Звичайний клієнт:");
-        commonCustomerBill.addItem(new Item("Товар 1", 50.0, 15.0));
-        commonCustomerBill.addItem(new Item("Товар 2", 20.0, 13.5));
-        commonCustomerBill.addItem(new Item("Товар 3", 700.0, 199.5));
-        commonCustomerBill.addItem(new Item("Товар 4", 80.0, 0.0));
-        commonCustomerBill.addItem(new Item("Товар 5", 100.0, 0.0));
-        commonCustomerBill.printBill();
+        System.out.println("Task 1");
+        System.out.print("Enter your string: ");
+        String inString= s.next();
+        boolean isEndsWithEd = isEndsWithEd(inString);
+        System.out.println("String ends with 'ed': " + isEndsWithEd);
+
+        System.out.println("Task 2");
+        System.out.print("Enter your string: ");
+        inString= s.next();
+        int digitsSum = sumDigits(inString);
+        System.out.println("The sum of the numbers in the line: " + digitsSum);
+
+        System.out.println("Task 3");
+        System.out.print("Enter your string: ");
+        inString= s.next();
+        int maxBlockLength = findMaxBlockLength(inString);
+        System.out.println("Length of the longest block of characters: " + maxBlockLength);
+
+        System.out.println("Task 4");
+        inString = " Владимир Александрович Зеленский  ";
+        System.out.print("Source string: "+inString+"\n" );
+        printWords(inString);
+
+        System.out.println("Task 5");
+        String firstLine = "Никита";
+        String secondLine = "qwezxcasd";
+        System.out.println("First line: "+firstLine);
+        System.out.println("Second line: "+secondLine);
+        String combinedString = mergeStrings(firstLine, secondLine);
+        System.out.println("Integration result: " + combinedString);
     }
-    static class Item {
-        private String name;
-        private double price;
-        private double discount;
-        public Item(String name, double price, double discount) {
-            this.name = name;
-            this.price = price;
-            this.discount = discount;
-        }
-        public double getDiscountedPrice() {
-            return price - discount;
-        }
-        public double getDiscount() {
-            return discount;
-        }
-        public double getPrice() {
-            return price;
-        }
-        public String getName() {
-            return name;
-        }
-
+    private static boolean isEndsWithEd(String input) {
+        return input.trim().endsWith("ed");
     }
-    public static class commonBill extends Bill{
-        public void addItem(Item item){
-            items.add(new Item(item.getName(), item.getPrice(), 0.0));
-        }
-    }
-    public static class Bill{
+    private static int sumDigits(String input) {
+        int sum = 0;
 
-        public List<Item> items;
-
-        public Bill() {
-            this.items = new ArrayList<>();
-        }
-        public void addItem(Item item) {
-            items.add(item);
-        }
-        public List<Item> getItems() {
-            return items;
-        }
-        public double calculateTotal() {
-            double total = 0.0;
-            for (Item item : items) {
-                total += item.getDiscountedPrice();
+        for (int i = 0; i < input.length(); i++) {
+            char currentChar = input.charAt(i);
+            if (Character.isDigit(currentChar)) {
+                sum += Character.getNumericValue(currentChar);
             }
-            return total;
         }
-        public void printBill() {
-            double totalDiscount = 0;
-            double totalAmount = 0;
 
-            for (Item item : items) {
-                double itemDiscount = item.getDiscount();
-                double newPrise = item.getPrice() - itemDiscount;
+        return sum;
+    }
+    private static int findMaxBlockLength(String input) {
+        int maxLength = 0;
+        int currentLength = 1;
 
-                totalAmount += newPrise;
-                totalDiscount += itemDiscount;
+        for (int i = 1; i < input.length(); i++) {
 
-                System.out.println( item.getName() + ", Ціна: " + item.getPrice() + " грн, " +
-                        "Знижка: " + itemDiscount + " грн, " +
-                        "Сума зі знижкою: " + newPrise + " грн");
+            if (input.charAt(i) == input.charAt(i - 1)) {
+                currentLength++;
+            } else {
+
+                if (currentLength > maxLength) {
+                    maxLength = currentLength;
+                }
+                currentLength = 1;
             }
-
-            System.out.println("Сума кошика: " + totalAmount + " грн");
-            System.out.println("Сума знижки: " + totalDiscount + " грн");
         }
+
+        if (currentLength > maxLength) {
+            maxLength = currentLength;
+        }
+
+        return maxLength;
+    }
+    private static void printWords(String input) {
+        String[] words = input.trim().split("\\s+");
+        System.out.print("Words:\n");
+        for (String word : words) {
+            System.out.println(word);
+        }
+    }
+    public static String mergeStrings(String firstLine, String secondLine) {
+        int firstLength = firstLine.length();
+        int secondLength = secondLine.length();
+        StringBuilder result = new StringBuilder();
+
+        int maxLength = firstLength + secondLength;
+
+        for (int i = 0; i < maxLength; i++) {
+            if (i < firstLength) {
+                result.append(firstLine.charAt(i));
+            }
+            if (i < secondLength) {
+                result.append(secondLine.charAt(i));
+            }
+        }
+        return result.toString();
     }
 
 }
