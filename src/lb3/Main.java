@@ -7,22 +7,22 @@ public class Main {
         Scanner s = new Scanner(System.in);
 
         System.out.println("Task 1");
-        System.out.print("Enter ur string: ");
+        System.out.print("Enter your string: ");
         String inString= s.next();
         boolean isEndsWithEd = isEndsWithEd(inString);
         System.out.println("String ends with 'ed': " + isEndsWithEd);
 
         System.out.println("Task 2");
-        System.out.print("Enter ur string: ");
+        System.out.print("Enter your string: ");
         inString= s.next();
         int digitsSum = sumDigits(inString);
-        System.out.println("The sum of the numbers: " + digitsSum);
+        System.out.println("The sum of the numbers in the line: " + digitsSum);
 
         System.out.println("Task 3");
-        System.out.print("Enter ur string: ");
+        System.out.print("Enter your string: ");
         inString= s.next();
         int maxBlockLength = findMaxBlockLength(inString);
-        System.out.println("Length of the longest block: " + maxBlockLength);
+        System.out.println("Length of the longest block of characters: " + maxBlockLength);
 
         System.out.println("Task 4");
         inString = " Владимир Александрович Зеленский  ";
@@ -31,17 +31,15 @@ public class Main {
 
         System.out.println("Task 5");
         String firstLine = "Никита";
-        String secondLine = "qweasdzxc";
+        String secondLine = "qwezxcasd";
         System.out.println("First line: "+firstLine);
         System.out.println("Second line: "+secondLine);
         String combinedString = mergeStrings(firstLine, secondLine);
         System.out.println("Integration result: " + combinedString);
     }
-
     private static boolean isEndsWithEd(String input) {
         return input.trim().endsWith("ed");
     }
-
     private static int sumDigits(String input) {
         int sum = 0;
 
@@ -54,7 +52,6 @@ public class Main {
 
         return sum;
     }
-
     private static int findMaxBlockLength(String input) {
         int maxLength = 0;
         int currentLength = 1;
@@ -78,7 +75,6 @@ public class Main {
 
         return maxLength;
     }
-
     private static void printWords(String input) {
         String[] words = input.trim().split("\\s+");
         System.out.print("Words:\n");
@@ -86,7 +82,6 @@ public class Main {
             System.out.println(word);
         }
     }
-
     public static String mergeStrings(String firstLine, String secondLine) {
         int firstLength = firstLine.length();
         int secondLength = secondLine.length();
@@ -102,7 +97,6 @@ public class Main {
                 result.append(secondLine.charAt(i));
             }
         }
-
         return result.toString();
     }
 
