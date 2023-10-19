@@ -18,8 +18,8 @@ public class Main {
         commonCustomerBill.addItem(new Item("Товар 1", 50.0, 15.0));
         commonCustomerBill.addItem(new Item("Товар 2", 20.0, 13.5));
         commonCustomerBill.addItem(new Item("Товар 3", 700.0, 199.5));
-        commonCustomerBill.addItem(new Item("Товар 4", 80.0, 0.0));
-        commonCustomerBill.addItem(new Item("Товар 5", 100.0, 0.0));
+        commonCustomerBill.addItem(new Item("Товар 4", 80.0, 5.0));
+        commonCustomerBill.addItem(new Item("Товар 5", 100.0, 10.0));
         commonCustomerBill.printBill();
     }
     static class Item {
